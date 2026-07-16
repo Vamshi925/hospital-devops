@@ -1,0 +1,240 @@
+services:
+
+  eureka:
+    image: vamshi925/eureka-server:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8761/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    ports:
+      - "8761:8761"
+    networks:
+      - hospital-network
+
+  mysql-login:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${LOGIN_DB_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-login-data:/var/lib/mysql
+    networks:
+      - hospital-network
+
+  login:
+    image: vamshi925/login-service:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8083/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+    depends_on:
+      mysql-login:
+        condition: service_started
+      eureka:
+        condition: service_healthy
+    networks:
+      - hospital-network
+
+  mysql-doctor:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DOCTOR_DB_NAME}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-doctor-data:/var/lib/mysql
+    networks:
+      - hospital-network
+
+  doctor:
+    image: vamshi925/doctor-service:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8089/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_DATASOURCE_URL: ${DOCTOR_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DOCTOR_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DOCTOR_DATASOURCE_PASSWORD}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+    depends_on:
+      mysql-doctor:
+        condition: service_started
+      eureka:
+        condition: service_healthy
+    networks:
+      - hospital-network
+
+  mysql-appointment:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${APPOINTMENT_DB_NAME}
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-appointment-data:/var/lib/mysql
+    networks:
+      - hospital-network
+
+  appointment:
+    image: vamshi925/appointment-service:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8041/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    ports:
+      - "8041:8041"
+    environment:
+      SPRING_DATASOURCE_URL: ${APPOINTMENT_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${APPOINTMENT_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${APPOINTMENT_DATASOURCE_PASSWORD}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+    depends_on:
+      mysql-appointment:
+        condition: service_started
+      eureka:
+        condition: service_healthy
+    networks:
+      - hospital-network
+
+  mysql-medical-history:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MEDICAL_HISTORY_DB_NAME}
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-medical-history-data:/var/lib/mysql
+    networks:
+      - hospital-network
+
+  medical-history:
+    image: vamshi925/medical-history-service:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8085/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: ${MEDICAL_HISTORY_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${MEDICAL_HISTORY_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MEDICAL_HISTORY_DATASOURCE_PASSWORD}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+    depends_on:
+      mysql-medical-history:
+        condition: service_started
+      eureka:
+        condition: service_healthy
+    networks:
+      - hospital-network
+
+  mysql-notification:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${NOTIFICATION_DB_NAME}
+    ports:
+      - "3310:3306"
+    volumes:
+      - mysql-notification-data:/var/lib/mysql
+    networks:
+      - hospital-network
+
+  notification:
+    image: vamshi925/notification-service:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8087/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    ports:
+      - "8087:8087"
+    environment:
+      SPRING_DATASOURCE_URL: ${NOTIFICATION_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${NOTIFICATION_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${NOTIFICATION_DATASOURCE_PASSWORD}
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+    depends_on:
+      mysql-notification:
+        condition: service_started
+      eureka:
+        condition: service_healthy
+    networks:
+      - hospital-network
+
+  api-gateway:
+    image: vamshi925/api-gateway:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8081/actuator/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    ports:
+      - "8081:8081"
+    environment:
+      EUREKA_SERVER_URL: ${EUREKA_SERVER_URL}
+    depends_on:
+      eureka:
+        condition: service_healthy
+      login:
+        condition: service_healthy
+      doctor:
+        condition: service_healthy
+      appointment:
+        condition: service_healthy
+      medical-history:
+        condition: service_healthy
+      notification:
+        condition: service_healthy
+    networks:
+      - hospital-network
+
+networks:
+  hospital-network:
+    driver: bridge
+
+volumes:
+  mysql-login-data:
+  mysql-doctor-data:
+  mysql-appointment-data:
+  mysql-medical-history-data:
+  mysql-notification-data:
