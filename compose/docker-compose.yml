@@ -228,6 +228,17 @@ services:
     networks:
       - hospital-network
 
+  frontend:
+    image: vamshi925/hospital-frontend:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - hospital-network
+
 networks:
   hospital-network:
     driver: bridge
