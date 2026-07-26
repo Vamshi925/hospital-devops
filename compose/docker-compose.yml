@@ -48,6 +48,8 @@ services:
         condition: service_started
       eureka:
         condition: service_healthy
+      doctor:
+        condition: service_healthy
     networks:
       - hospital-network
 
