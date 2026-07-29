@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: eureka
+  namespace: hospital
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: eureka
+
+  template:
+    metadata:
+      labels:
+        app: eureka
+
+    spec:
+      containers:
+      - name: eureka
+
+        image: vamshi925/eureka-server:latest
+
+        ports:
+        - containerPort: 8761
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8761
+          initialDelaySeconds: 20
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8761
+          initialDelaySeconds: 40
+          periodSeconds: 15

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: login-config
+  namespace: hospital
+
+data:
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql-login:3306/LoginService
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_DATASOURCE_PASSWORD: root
+
+  EUREKA_SERVER_URL: http://eureka:8761/eureka/

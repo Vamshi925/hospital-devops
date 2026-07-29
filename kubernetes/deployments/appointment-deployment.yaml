@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: appointment
+  namespace: hospital
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: appointment
+
+  template:
+    metadata:
+      labels:
+        app: appointment
+
+    spec:
+      containers:
+
+      - name: appointment
+
+        image: vamshi925/appointment-service:latest
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8041
+
+        envFrom:
+        - configMapRef:
+            name: appointment-config
+
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8041
+          failureThreshold: 60
+          periodSeconds: 5
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8041
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8041
+          initialDelaySeconds: 180
+          periodSeconds: 20
+          timeoutSeconds: 5
+
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+
+          limits:
+            memory: "1Gi"
+            cpu: "500m"

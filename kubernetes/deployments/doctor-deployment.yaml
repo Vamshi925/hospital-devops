@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: doctor
+  namespace: hospital
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: doctor
+
+  template:
+    metadata:
+      labels:
+        app: doctor
+
+    spec:
+      containers:
+
+      - name: doctor
+
+        image: vamshi925/doctor-service:latest
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8089
+
+        envFrom:
+        - configMapRef:
+            name: doctor-config
+
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8089
+          failureThreshold: 60
+          periodSeconds: 5
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8089
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8089
+          initialDelaySeconds: 180
+          periodSeconds: 20
+          timeoutSeconds: 5
+
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+
+          limits:
+            memory: "1Gi"
+            cpu: "500m"

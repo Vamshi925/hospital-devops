@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medical-history
+  namespace: hospital
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: medical-history
+  template:
+    metadata:
+      labels:
+        app: medical-history
+    spec:
+      containers:
+      - name: medical-history
+        image: vamshi925/medical-history-service:latest
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8085
+
+        envFrom:
+        - configMapRef:
+            name: medical-history-config
+
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8085
+          failureThreshold: 60
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8085
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8085
+          initialDelaySeconds: 60
+          periodSeconds: 20
