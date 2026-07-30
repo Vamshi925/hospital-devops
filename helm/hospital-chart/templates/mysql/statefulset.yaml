@@ -1,0 +1,13 @@
+{{- range $name, $db := .Values.mysql }}
+
+{{ include "hospital.mysql.statefulset" (dict
+"name" $name
+"database" $db.database
+"namespace" $.Values.namespace
+"Chart" $.Chart
+"Release" $.Release
+) }}
+
+---
+
+{{- end }}

@@ -1,5 +1,22 @@
 namespace: hospital
 
+mysql:
+
+  login:
+    database: LoginService
+
+  doctor:
+    database: DoctorService
+
+  appointment:
+    database: AppointmentService
+
+  medical-history:
+    database: MedicalHistoryService
+
+  notification:
+    database: NotificationService
+
 services:
 
   api-gateway:
