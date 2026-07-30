@@ -32,6 +32,8 @@ spec:
         envFrom:
         - configMapRef:
             name: appointment-config
+        - secretRef:
+            name: appointment-secret
 
         startupProbe:
           httpGet:

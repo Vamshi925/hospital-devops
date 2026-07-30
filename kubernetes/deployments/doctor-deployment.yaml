@@ -32,6 +32,8 @@ spec:
         envFrom:
         - configMapRef:
             name: doctor-config
+        - secretRef:
+            name: doctor-secret
 
         startupProbe:
           httpGet:

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: notification-db-policy
+  namespace: hospital
+
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql-notification
+
+  policyTypes:
+    - Ingress
+
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: notification
+
+      ports:
+        - protocol: TCP
+          port: 3306

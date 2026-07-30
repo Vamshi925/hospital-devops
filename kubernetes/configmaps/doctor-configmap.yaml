@@ -7,6 +7,4 @@ metadata:
 
 data:
   SPRING_DATASOURCE_URL: jdbc:mysql://mysql-doctor:3306/DoctorService
-  SPRING_DATASOURCE_USERNAME: root
-  SPRING_DATASOURCE_PASSWORD: root
   EUREKA_SERVER_URL: http://eureka:8761/eureka/

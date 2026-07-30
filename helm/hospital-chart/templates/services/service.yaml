@@ -1,0 +1,13 @@
+{{- range $name, $svc := .Values.services }}
+
+{{ include "hospital.service" (dict
+"name" $name
+"namespace" $.Values.namespace
+"service" $svc.service
+"Chart" $.Chart
+"Release" $.Release
+) }}
+
+---
+
+{{- end }}

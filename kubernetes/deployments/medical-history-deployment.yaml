@@ -24,6 +24,8 @@ spec:
         envFrom:
         - configMapRef:
             name: medical-history-config
+        - secretRef:
+            name: medical-history-secret
 
         resources:
           requests:

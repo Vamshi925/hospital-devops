@@ -24,6 +24,8 @@ spec:
         envFrom:
         - configMapRef:
             name: login-config
+        - secretRef:
+            name: login-secret
 
         resources:
           requests:

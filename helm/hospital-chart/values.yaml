@@ -1,0 +1,285 @@
+namespace: hospital
+
+services:
+
+  api-gateway:
+    replicaCount: 1
+
+    image:
+      repository: vamshi925/api-gateway
+      tag: latest
+      pullPolicy: Always
+
+    service:
+      type: ClusterIP
+      port: 8081
+
+    configMap: api-gateway-config
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+    probes:
+      startup:
+        failureThreshold: 30
+        periodSeconds: 10
+
+      readiness:
+        initialDelaySeconds: 30
+        periodSeconds: 10
+
+      liveness:
+        initialDelaySeconds: 60
+        periodSeconds: 20
+
+  eureka:
+    replicaCount: 1
+
+    image:
+      repository: vamshi925/eureka-server
+      tag: latest
+      pullPolicy: Always
+
+    service:
+      type: ClusterIP
+      port: 8761
+
+    configMap: eureka-config
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+    probes:
+      startup:
+        failureThreshold: 30
+        periodSeconds: 10
+
+      readiness:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+
+      liveness:
+        initialDelaySeconds: 40
+        periodSeconds: 15
+
+  login:
+    replicaCount: 1
+
+    image:
+      repository: vamshi925/login-service
+      tag: latest
+      pullPolicy: Always
+
+    service:
+      type: ClusterIP
+      port: 8083
+
+    configMap: login-config
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+    probes:
+      startup:
+        failureThreshold: 30
+        periodSeconds: 10
+
+      readiness:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+
+      liveness:
+        initialDelaySeconds: 40
+        periodSeconds: 15
+
+  doctor:
+    replicaCount: 1
+
+    image:
+      repository: vamshi925/doctor-service
+      tag: latest
+      pullPolicy: Always
+
+    service:
+      type: ClusterIP
+      port: 8089
+
+    configMap: doctor-config
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+    probes:
+      startup:
+        failureThreshold: 30
+        periodSeconds: 10
+
+      readiness:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+
+      liveness:
+        initialDelaySeconds: 40
+        periodSeconds: 15
+
+  appointment:
+    replicaCount: 1
+
+    image:
+      repository: vamshi925/appointment-service
+      tag: latest
+      pullPolicy: Always
+
+    service:
+      type: ClusterIP
+      port: 8041
+
+    configMap: appointment-config
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+    probes:
+      startup:
+        failureThreshold: 30
+        periodSeconds: 10
+
+      readiness:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+
+      liveness:
+        initialDelaySeconds: 40
+        periodSeconds: 15
+
+  medical-history:
+    replicaCount: 1
+
+    image:
+      repository: vamshi925/medical-history-service
+      tag: latest
+      pullPolicy: Always
+
+    service:
+      type: ClusterIP
+      port: 8085
+
+    configMap: medical-history-config
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+    probes:
+      startup:
+        failureThreshold: 30
+        periodSeconds: 10
+
+      readiness:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+
+      liveness:
+        initialDelaySeconds: 40
+        periodSeconds: 15
+
+  notification:
+    replicaCount: 1
+
+    image:
+      repository: vamshi925/notification-service
+      tag: latest
+      pullPolicy: Always
+
+    service:
+      type: ClusterIP
+      port: 8087
+
+    configMap: notification-config
+
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+    probes:
+      startup:
+        failureThreshold: 30
+        periodSeconds: 10
+
+      readiness:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+
+      liveness:
+        initialDelaySeconds: 40
+        periodSeconds: 15
+
+databases:
+
+  login:
+    database: LoginService
+    serviceName: mysql-login
+    storage: 5Gi
+    username: root
+    password: root
+
+  doctor:
+    database: DoctorService
+    serviceName: mysql-doctor
+    storage: 5Gi
+    username: root
+    password: root
+
+  appointment:
+    database: AppointmentService
+    serviceName: mysql-appointment
+    storage: 5Gi
+    username: root
+    password: root
+
+  medical-history:
+    database: MedicalHistoryService
+    serviceName: mysql-medical-history
+    storage: 5Gi
+    username: root
+    password: root
+
+  notification:
+    database: NotificationService
+    serviceName: mysql-notification
+    storage: 5Gi
+    username: root
+    password: root

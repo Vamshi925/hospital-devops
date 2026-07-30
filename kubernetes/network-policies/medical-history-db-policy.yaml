@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: medical-history-db-policy
+  namespace: hospital
+
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql-medical-history
+
+  policyTypes:
+    - Ingress
+
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: medical-history
+
+      ports:
+        - protocol: TCP
+          port: 3306
