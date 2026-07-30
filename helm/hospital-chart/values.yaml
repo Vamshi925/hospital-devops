@@ -300,3 +300,8 @@ databases:
     storage: 5Gi
     username: root
     password: root
+
+ingress:
+  enabled: true
+  className: nginx
+  host: hospital.local
