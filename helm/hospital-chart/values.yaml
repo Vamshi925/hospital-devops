@@ -304,4 +304,24 @@ databases:
 ingress:
   enabled: true
   className: nginx
-  host: hospital.local
+  host: ""
+
+frontend:
+  replicaCount: 1
+
+  image:
+    repository: vamshi925/hospital-frontend
+    tag: latest
+    pullPolicy: Always
+
+  service:
+    type: ClusterIP
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+    limits:
+      cpu: 300m
+      memory: 256Mi

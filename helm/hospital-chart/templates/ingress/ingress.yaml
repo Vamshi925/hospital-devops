@@ -12,11 +12,60 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
 
   rules:
-    - host: {{ .Values.ingress.host }}
+
+    - host: {{ .Values.ingress.host | quote }}
 
       http:
         paths:
+
+          # Frontend
           - path: /
+            pathType: Prefix
+
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+
+          # API Gateway Routes
+          - path: /login-service
+            pathType: Prefix
+
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8081
+
+          - path: /doctor-service
+            pathType: Prefix
+
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8081
+
+          - path: /appointment-service
+            pathType: Prefix
+
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8081
+
+          - path: /medical-history-service
+            pathType: Prefix
+
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8081
+
+          - path: /notification-service
             pathType: Prefix
 
             backend:
