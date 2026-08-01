@@ -1,0 +1,5 @@
+{{ include "hospital.hpa" (dict
+    "name" "doctor"
+    "namespace" .Values.namespace
+    "autoscaling" .Values.services.doctor.autoscaling
+) }}
