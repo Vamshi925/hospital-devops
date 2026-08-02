@@ -35,11 +35,11 @@ services:
 
     resources:
       requests:
-        cpu: 25m
-        memory: 512Mi
+        cpu: 10m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: true
@@ -79,11 +79,11 @@ services:
 
     resources:
       requests:
-        cpu: 25m
-        memory: 512Mi
+        cpu: 10m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: true
@@ -123,11 +123,11 @@ services:
 
     resources:
       requests:
-        cpu: 25m
-        memory: 512Mi
+        cpu: 10m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: true
@@ -167,11 +167,11 @@ services:
 
     resources:
       requests:
-        cpu: 25m
-        memory: 512Mi
+        cpu: 10m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: true
@@ -211,11 +211,11 @@ services:
 
     resources:
       requests:
-        cpu: 25m
-        memory: 512Mi
+        cpu: 10m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: true
@@ -255,11 +255,11 @@ services:
 
     resources:
       requests:
-        cpu: 25m
-        memory: 512Mi
+        cpu: 10m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: true
@@ -299,11 +299,11 @@ services:
 
     resources:
       requests:
-        cpu: 25m
-        memory: 512Mi
+        cpu: 10m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 250m
+        memory: 512Mi
 
     autoscaling:
       enabled: true
