@@ -1,0 +1,6 @@
+{{ include "hospital.servicemonitor" (dict
+    "root" $
+    "name" "appointment"
+    "namespace" .Values.namespace
+    "monitoring" .Values.services.appointment.monitoring
+) }}

@@ -47,6 +47,9 @@ services:
       maxReplicas: 5
       targetCPUUtilizationPercentage: 70
 
+    monitoring:
+      enabled: true
+
     probes:
       startup:
         failureThreshold: 30
@@ -87,6 +90,9 @@ services:
       minReplicas: 1
       maxReplicas: 5
       targetCPUUtilizationPercentage: 70
+
+    monitoring:
+      enabled: true
 
     probes:
       startup:
@@ -129,6 +135,9 @@ services:
       maxReplicas: 5
       targetCPUUtilizationPercentage: 70
 
+    monitoring:
+      enabled: true
+
     probes:
       startup:
         failureThreshold: 30
@@ -169,6 +178,9 @@ services:
       minReplicas: 1
       maxReplicas: 5
       targetCPUUtilizationPercentage: 70
+
+    monitoring:
+      enabled: true
 
     probes:
       startup:
@@ -211,6 +223,9 @@ services:
       maxReplicas: 5
       targetCPUUtilizationPercentage: 70
 
+    monitoring:
+      enabled: true
+
     probes:
       startup:
         failureThreshold: 30
@@ -252,6 +267,9 @@ services:
       maxReplicas: 5
       targetCPUUtilizationPercentage: 70
 
+    monitoring:
+      enabled: true
+
     probes:
       startup:
         failureThreshold: 30
@@ -292,6 +310,9 @@ services:
       minReplicas: 1
       maxReplicas: 5
       targetCPUUtilizationPercentage: 70
+
+    monitoring:
+      enabled: true
 
     probes:
       startup:
