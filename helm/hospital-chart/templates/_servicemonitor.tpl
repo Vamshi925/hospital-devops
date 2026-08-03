@@ -8,6 +8,8 @@ kind: ServiceMonitor
 metadata:
   name: {{ .name }}
   namespace: monitoring
+  labels:
+    release: monitoring
 
 spec:
   selector:
