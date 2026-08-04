@@ -4,7 +4,9 @@ kind: PrometheusRule
 metadata:
   name: hospital-alerts
   namespace: monitoring
-
+  labels:
+    release: monitoring
+    
 spec:
   groups:
     - name: hospital-alerts
