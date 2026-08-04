@@ -1,0 +1,91 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: hospital-alerts
+  namespace: monitoring
+
+spec:
+  groups:
+    - name: hospital-alerts
+      rules:
+        - alert: ApiGatewayDown
+          expr: up{job="api-gateway"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "API Gateway Down"
+            description: "API Gateway has been down for more than 1 minute."
+
+        - alert: LoginServiceDown
+          expr: up{job="login"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Login Service Down"
+
+        - alert: DoctorServiceDown
+          expr: up{job="doctor"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Doctor Service Down"
+
+        - alert: AppointmentServiceDown
+          expr: up{job="appointment"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Appointment Service Down"
+
+        - alert: MedicalHistoryServiceDown
+          expr: up{job="medical-history"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Medical History Service Down"
+
+        - alert: NotificationServiceDown
+          expr: up{job="notification"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Notification Service Down"
+
+        - alert: EurekaDown
+          expr: up{job="eureka"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Eureka Server Down"
+
+        - alert: HighHeapMemory
+          expr: (sum(jvm_memory_used_bytes{area="heap"}) / sum(jvm_memory_max_bytes{area="heap"})) * 100 > 80
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Heap Memory Above 80%"
+
+        - alert: HighCPUUsage
+          expr: process_cpu_usage > 0.80
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CPU Usage Above 80%"
+
+        - alert: PodRestarting
+          expr: increase(kube_pod_container_status_restarts_total[5m]) > 2
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Pod Restarting Frequently"
